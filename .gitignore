@@ -1,0 +1,37 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# Linux
+*~
+
+# Editores / IDEs
+.vscode/
+.idea/
+*.iml
+*.swp
+*.swo
+
+# Logs y temporales
+*.log
+*.tmp
+tmp/
+temp/
+
+# Variables de entorno y secretos
+.env
+.env.*
+!.env.example
+
+# Archivos comprimidos accidentales
+*.zip
+*.tar.gz
+*.rar
