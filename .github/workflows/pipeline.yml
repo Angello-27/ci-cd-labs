@@ -34,8 +34,5 @@ jobs:
       - name: Mostrar versión de Git
         run: git --version
 
-      - name: Verificar archivo de configuración
-        run: cat config/app.properties
-
       - name: Finalizar pipeline
         run: echo "Pipeline ejecutado correctamente."
