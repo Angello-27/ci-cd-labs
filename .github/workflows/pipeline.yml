@@ -39,6 +39,7 @@ jobs:
 
   build:
     name: Build
+    needs: hello-ci
     runs-on: ubuntu-latest
 
     steps:
