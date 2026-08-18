@@ -17,7 +17,7 @@ def validate_form(username, email, password, age):
     if not username or len(username.strip()) < MIN_USERNAME_LENGTH:
         errors.append(f"El nombre de usuario debe tener al menos {MIN_USERNAME_LENGTH} caracteres.")
 
-    if not email:
+    if not email or not EMAIL_PATTERN.match(email):
         errors.append("El correo electrónico no tiene un formato válido.")
 
     if not password or len(password) < MIN_PASSWORD_LENGTH:
