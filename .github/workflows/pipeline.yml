@@ -36,3 +36,69 @@ jobs:
 
       - name: Finalizar pipeline
         run: echo "Pipeline ejecutado correctamente."
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+
+      - name: Instalar dependencias
+        run: pip install -r requirements.txt
+
+      - name: Verificar que el módulo se importa correctamente
+        run: python -c "import sys; sys.path.insert(0, 'app'); import form_validator"
+
+  test:
+    name: Test
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+
+      - name: Instalar dependencias
+        run: pip install -r requirements.txt
+
+      - name: Ejecutar pruebas unitarias y generar cobertura
+        run: |
+          pytest \
+            --junitxml=reports/junit.xml \
+            --cov=app \
+            --cov-report=term \
+            --cov-report=xml:reports/coverage.xml \
+            --cov-report=html:reports/htmlcov \
+            tests/
+
+      - name: Publicar reporte de pruebas
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: reports/junit.xml
+          retention-days: 15
+
+      - name: Publicar reporte de cobertura
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: |
+            reports/coverage.xml
+            reports/htmlcov/
+          retention-days: 15
