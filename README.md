@@ -40,14 +40,42 @@ La rama `master` cuenta con un ruleset activo que exige:
 - Que el check de CI **Hello CI** finalice exitosamente antes del merge.
 - Bloqueo de force pushes y de eliminación de la rama.
 
+## Laboratorio 3 — Integración de Pruebas Automatizadas al Pipeline
+
+En este laboratorio se incorpora al pipeline un módulo Python (`form_validator`)
+que valida los datos de un formulario de registro, junto con su suite de pruebas
+unitarias (pytest) y reporte de cobertura de código (pytest-cov).
+
+### Etapas del pipeline
+
+El pipeline se amplía con dos jobs nuevos, además de `Hello CI`:
+
+- **Build**: instala las dependencias y verifica que el módulo se importe
+  correctamente.
+- **Test**: se ejecuta únicamente si `Build` finaliza correctamente (`needs: build`).
+  Corre las pruebas unitarias con `pytest`, muestra el resultado y la cobertura en
+  los registros, y publica como artefactos descargables:
+  - el reporte de ejecución de pruebas (`reports/junit.xml`);
+  - el reporte de cobertura de código (`reports/coverage.xml` y `reports/htmlcov/`).
+
+### Quality Gate
+
+Si alguna prueba unitaria falla, el job `Test` finaliza con error y el pipeline se
+detiene en esa etapa, evitando que un cambio que no cumple con las validaciones
+mínimas continúe el proceso de integración continua.
+
 ## Estructura
 
 ```
 ci-cd-labs/
 │
 ├── README.md
+├── requirements.txt
 ├── app/
-│   └── hello.txt
+│   ├── hello.txt
+│   └── form_validator.py
+├── tests/
+│   └── test_form_validator.py
 └── .github/
     └── workflows/
         └── pipeline.yml

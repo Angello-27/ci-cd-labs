@@ -35,3 +35,11 @@ temp/
 *.zip
 *.tar.gz
 *.rar
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+.coverage
+reports/
